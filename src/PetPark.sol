@@ -4,8 +4,10 @@ pragma solidity ^0.8.13;
 contract PetPark {
     address public owner;
 
+    mapping(AnimalType => uint256) public animalCount;
+
     enum AnimalType {
-        none,
+        None,
         Fish,
         Cat,
         Dog,
@@ -18,7 +20,7 @@ contract PetPark {
         Female
     }
 
-    event Added(AnimalType indexed animalType, uint8 age);
+    event Added(AnimalType indexed animalType, uint256 count);
     event Borrowed(AnimalType indexed animalType);
     event Returned (AnimalType indexed animalType);
 
@@ -29,5 +31,10 @@ contract PetPark {
     modifier onlyOwner() {
         require(msg.sender == owner, "Only owner can call this function");
         _;
+    }
+
+    function add(AnimalType animalType, uint256 count) external onlyOwner {
+        animalCount[animalType] += count;
+        emit Added(animalType, count);
     }
 }
