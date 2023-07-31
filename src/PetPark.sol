@@ -33,6 +33,11 @@ contract PetPark {
         _;
     }
 
+    modifier validAnimal(AnimalType animalType) {
+        require(animalType != AnimalType.None, "Invalid animal");
+        _;
+    }
+
     function add(AnimalType animalType, uint256 count) external onlyOwner {
         animalCount[animalType] += count;
         emit Added(animalType, count);
