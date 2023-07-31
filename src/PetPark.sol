@@ -18,6 +18,10 @@ contract PetPark {
         Female
     }
 
+    event Added(AnimalType indexed animalType, uint8 age);
+    event Borrowed(AnimalType indexed animalType);
+    event Returned (AnimalType indexed animalType);
+
     constructor() {
         owner = msg.sender;
     }
