@@ -5,6 +5,7 @@ contract PetPark {
     address public owner;
 
     mapping(AnimalType => uint256) public animalCount;
+    mapping(address => User) private users;
 
     enum AnimalType {
         None,
@@ -18,6 +19,12 @@ contract PetPark {
     enum Gender {
         Male,
         Female
+    }
+
+    struct User {
+        uint8 age;
+        Gender gender;
+        AnimalType borrowedAnimal;
     }
 
     event Added(AnimalType indexed animalType, uint256 count);
