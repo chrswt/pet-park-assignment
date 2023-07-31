@@ -2,6 +2,8 @@
 pragma solidity ^0.8.13;
 
 contract PetPark {
+    address public owner;
+
     enum AnimalType {
         none,
         Fish,
@@ -14,5 +16,14 @@ contract PetPark {
     enum Gender {
         Male,
         Female
+    }
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can call this function");
+        _;
     }
 }
