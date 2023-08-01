@@ -131,7 +131,13 @@ contract PetParkTest is Test, PetPark {
 
     function testBorrowCountDecrement() public {
         // 3. Complete this test and remove the assert line below
-        assert(false);
+        petPark.add(AnimalType.Fish, 5);
+        uint originalPetCount = petPark.animalCounts(AnimalType.Fish);
+
+        petPark.borrow(24, Gender.Male, AnimalType.Fish);
+        uint currentPetCount = petPark.animalCounts(AnimalType.Fish);
+
+        assertEq(originalPetCount, currentPetCount + 1);
     }
 
     function testCannotGiveBack() public {
