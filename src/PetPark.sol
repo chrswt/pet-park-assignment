@@ -45,7 +45,10 @@ contract PetPark {
         _;
     }
 
-    function add(AnimalType animalType, uint256 count) external onlyOwner {
+    function add(
+        AnimalType animalType,
+        uint256 count
+    ) external onlyOwner validAnimal(animalType) {
         animalCounts[animalType] += count;
         emit Added(animalType, count);
     }
@@ -81,7 +84,6 @@ contract PetPark {
         user.borrowedAnimal = animalType;
         emit Borrowed(animalType);
     }
-
 
     function giveBackAnimal() external {}
 }
