@@ -25,6 +25,7 @@ contract PetPark {
         uint8 age;
         Gender gender;
         AnimalType borrowedAnimal;
+        bool exists;
     }
 
     event Added(AnimalType indexed animalType, uint256 count);
@@ -66,9 +67,10 @@ contract PetPark {
         User storage user = users[msg.sender];
 
         // If the user does not exist, create new details for the current user
-        if (user.age == 0) {
+        if (!user.exists) {
             user.age = age;
             user.gender = gender;
+            user.exists = true;
         } else {
             // Check that the user's details are valid and unchanged
             require(user.age == age, "Invalid Age");
@@ -103,10 +105,7 @@ contract PetPark {
     function giveBackAnimal() external {
         // Load user and check that user has borrowed an animal
         User storage user = users[msg.sender];
-        require(
-            user.borrowedAnimal != AnimalType.None,
-            "No borrowed pets"
-        );
+        require(user.borrowedAnimal != AnimalType.None, "No borrowed pets");
 
         // Update state variables and emit Returned event
         animalCounts[user.borrowedAnimal] += 1;
