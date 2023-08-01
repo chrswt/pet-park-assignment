@@ -49,6 +49,7 @@ contract PetPark {
         AnimalType animalType,
         uint256 count
     ) external onlyOwner validAnimal(animalType) {
+        // Update state variables and emit Added event
         animalCounts[animalType] += count;
         emit Added(animalType, count);
     }
@@ -80,18 +81,21 @@ contract PetPark {
             );
         }
 
+        // Update state variables and emit Borrowed event
         animalCounts[animalType] -= 1;
         user.borrowedAnimal = animalType;
         emit Borrowed(animalType);
     }
 
     function giveBackAnimal() external {
+        // Load user and check that user has borrowed an animal
         User storage user = users[msg.sender];
         require(
             user.borrowedAnimal != AnimalType.None,
             "No borrowed pets"
         );
 
+        // Update state variables and emit Returned event
         animalCounts[user.borrowedAnimal] += 1;
         user.borrowedAnimal = AnimalType.None;
         emit Returned(user.borrowedAnimal);
