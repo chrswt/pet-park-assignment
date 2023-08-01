@@ -85,5 +85,15 @@ contract PetPark {
         emit Borrowed(animalType);
     }
 
-    function giveBackAnimal() external {}
+    function giveBackAnimal() external {
+        User storage user = users[msg.sender];
+        require(
+            user.borrowedAnimal != AnimalType.None,
+            "No borrowed pets"
+        );
+
+        animalCounts[user.borrowedAnimal] += 1;
+        user.borrowedAnimal = AnimalType.None;
+        emit Returned(user.borrowedAnimal);
+    }
 }
