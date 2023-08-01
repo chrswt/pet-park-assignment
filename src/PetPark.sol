@@ -55,6 +55,7 @@ contract PetPark {
         Gender gender,
         AnimalType animalType
     ) external validAnimal(animalType) {
+        // Perform fail-fast data and inventory validation
         require(age > 0, "Age must be greater than zero");
         require(animalCounts[animalType] > 0, "Selected animal not available");
 
@@ -65,6 +66,11 @@ contract PetPark {
             user.age = age;
             user.gender = gender;
         } else {
+            // Check that the user's details are valid and unchanged
+            require(user.age == age, "Invalid Age");
+            require(user.gender == gender, "Invalid Gender");
+
+            // Check that the user is not currently borrowing another animal
             require(
                 user.borrowedAnimal == AnimalType.None,
                 "Already adopted a pet"
@@ -75,4 +81,7 @@ contract PetPark {
         user.borrowedAnimal = animalType;
         emit Borrowed(animalType);
     }
+
+
+    function giveBackAnimal() external {}
 }
