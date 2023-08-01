@@ -4,10 +4,9 @@ pragma solidity ^0.8.13;
 import "forge-std/Test.sol";
 import "../src/PetPark.sol";
 
-
 contract PetParkTest is Test, PetPark {
     PetPark petPark;
-    
+
     address testOwnerAccount;
 
     address testPrimaryAccount;
@@ -31,7 +30,7 @@ contract PetParkTest is Test, PetPark {
     }
 
     function testCannotAddInvalidAnimal() public {
-        vm.expectRevert("Invalid animal");
+        vm.expectRevert("Invalid animal type");
         petPark.add(AnimalType.None, 5);
     }
 
@@ -94,7 +93,7 @@ contract PetParkTest is Test, PetPark {
         vm.prank(testPrimaryAccount);
         petPark.borrow(24, Gender.Male, AnimalType.Fish);
 
-		vm.expectRevert("Already adopted a pet");
+        vm.expectRevert("Already adopted a pet");
         vm.prank(testPrimaryAccount);
         petPark.borrow(24, Gender.Male, AnimalType.Fish);
 
@@ -109,11 +108,11 @@ contract PetParkTest is Test, PetPark {
         vm.prank(testPrimaryAccount);
         petPark.borrow(24, Gender.Male, AnimalType.Fish);
 
-		vm.expectRevert("Invalid Age");
+        vm.expectRevert("Invalid Age");
         vm.prank(testPrimaryAccount);
         petPark.borrow(23, Gender.Male, AnimalType.Fish);
 
-		vm.expectRevert("Invalid Gender");
+        vm.expectRevert("Invalid Gender");
         vm.prank(testPrimaryAccount);
         petPark.borrow(24, Gender.Female, AnimalType.Fish);
     }
@@ -145,6 +144,6 @@ contract PetParkTest is Test, PetPark {
         petPark.giveBackAnimal();
         uint currentPetCount = petPark.animalCounts(AnimalType.Fish);
 
-		assertEq(reducedPetCount, currentPetCount - 1);
+        assertEq(reducedPetCount, currentPetCount - 1);
     }
 }
