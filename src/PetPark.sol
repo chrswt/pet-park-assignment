@@ -81,6 +81,19 @@ contract PetPark {
             );
         }
 
+        // Perform specific requirement tests
+        if (gender == Gender.Male) {
+            require(
+                animalType == AnimalType.Dog || animalType == AnimalType.Fish,
+                "Invalid animal for men"
+            );
+        } else if (gender == Gender.Female && age < 40) {
+            require(
+                animalType != AnimalType.Cat,
+                "Invalid animal for women under 40"
+            );
+        }
+
         // Update state variables and emit Borrowed event
         animalCounts[animalType] -= 1;
         user.borrowedAnimal = animalType;
